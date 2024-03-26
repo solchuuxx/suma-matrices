@@ -1,0 +1,49 @@
+<DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suma de Matrices</title>
+    <style>
+        h1{
+            background-color: rgb(195, 192, 192);
+            text-align: center;
+        }
+        body{
+            background-color: darkseagreen;
+            font-size: 20px;
+        }
+        button{
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        .contenedor{
+            text-align: center; /* Centrado horizontal */
+            line-height: 5vh; /* Centrado vertical */
+        }
+    </style>
+</head>
+<body>
+    <h1>Suma de Matrices</h1>
+    <div class="contenedor">
+        <div>
+            <label for="filas">Número de Filas:</label>
+            <input type="number" id="filas" min="1">
+        </div>
+        <div>
+            <label for="columnas">Número de Columnas:</label>
+            <input type="number" id="columnas" min="1">
+        </div>
+        <button onclick="generarCajasDeTexto()">Generar</button>
+
+        <div id="matrices">
+            <div id="matriz1"></div>
+            <div id="matriz2"></div>
+        </div>
+
+    <div id="resultado"></div>
+    </div>
+    <script src="/public/app.js"></script>
+    <script src="../script.js"></script>
+</body>
+</html>
