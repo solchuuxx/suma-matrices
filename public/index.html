@@ -1,49 +1,39 @@
-<DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suma de Matrices</title>
-    <style>
-        h1{
-            background-color: rgb(195, 192, 192);
-            text-align: center;
-        }
-        body{
-            background-color: darkseagreen;
-            font-size: 20px;
-        }
-        button{
-            margin-bottom: 10px;
-            margin-top: 10px;
-        }
-        .contenedor{
-            text-align: center; /* Centrado horizontal */
-            line-height: 5vh; /* Centrado vertical */
-        }
-    </style>
+    <title>Suma de matrices</title>
 </head>
 <body>
-    <h1>Suma de Matrices</h1>
-    <div class="contenedor">
-        <div>
-            <label for="filas">Número de Filas:</label>
-            <input type="number" id="filas" min="1">
-        </div>
-        <div>
-            <label for="columnas">Número de Columnas:</label>
-            <input type="number" id="columnas" min="1">
-        </div>
-        <button onclick="generarCajasDeTexto()">Generar</button>
+<h2>Suma de 2 matrices</h2>
+<form action="/calculate" method="POST" id="formulario">
+    <label for="array1">Array 1 (separado por comas):</label>
+    <input type="text" id="array1" name="array1" required><br>
+    <label for="array2">Array 2 (separado por comas):</label>
+    <input type="text" id="array2" name="array2" required><br>
+    <button type="submit">Calcular Suma</button>
+</form>
 
-        <div id="matrices">
-            <div id="matriz1"></div>
-            <div id="matriz2"></div>
-        </div>
+<div id="result"></div>
 
-    <div id="resultado"></div>
-    </div>
-    <script src="/public/app.js"></script>
-    <script src="../script.js"></script>
+<script>
+    document.getElementById('formulario').addEventListener('submit', async (event) => {
+    const formData = new FormData(event.target);
+    try {
+        console.log(formData)
+        const response = await fetch('/calculate', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+        document.getElementById('result').innerText = `Resultado: [${result}]`;
+    } catch (error) {
+        console.error('Error al obtener el resultado:', error);
+    }
+});
+
+</script>    
 </body>
 </html>
