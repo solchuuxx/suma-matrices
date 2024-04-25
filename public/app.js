@@ -3,25 +3,28 @@ const app = express();
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
 app.post('/calculate', (req, res) => {
-    const array1 = req.body.array1.split(',').map(Number);
-    const array2 = req.body.array2.split(',').map(Number);
+    const matrix1 = req.body.matrix1;
+    const matrix2 = req.body.matrix2;
     const result = [];
-    
-    for (let i = 0; i < 3; i++) {
-        const sum = array1[i] + array2[i];
-        result.push(sum);
+
+    for (let i = 0; i < matrix1.length; i++) {
+        result[i] = [];
+        for (let j = 0; j < matrix1[i].length; j++) {
+            result[i][j] = matrix1[i][j] + matrix2[i][j];
+        }
     }
 
-    res.send(result);
+    res.json(result);
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server andando en puerto:  ${PORT}`);
+    console.log(`Server running on port: ${PORT}`);
 });
