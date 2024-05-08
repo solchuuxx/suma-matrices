@@ -1,7 +1,9 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
 
+app.use(cors()); // Habilita CORS para todas las rutas
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

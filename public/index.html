@@ -60,7 +60,7 @@
         }
 
         try {
-            const response = await fetch('/calculate', {
+            const response = await fetch('http://127.0.0.1:3000/calculate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -70,6 +70,7 @@
                     matrix2: matrix2
                 })
             });
+
 
             const result = await response.json();
             document.getElementById('result').innerText = `Resultado: ${JSON.stringify(result)}`;
