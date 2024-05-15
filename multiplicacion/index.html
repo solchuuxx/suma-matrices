@@ -8,26 +8,34 @@
 <body style="font-family: Arial, sans-serif; background-color: #f0f0f0; color: #333; margin: 0; padding: 0; line-height: 1.6; text-align: center;">
 <h2>Multiplicación de 2 matrices</h2>
 <form id="matrixForm" style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; border: 1px solid #ddd; border-radius: 5px;">
+    <!-- Campos para ingresar el número de filas y columnas -->
     <label for="rows">Número de filas:</label>
     <input type="number" id="rows" required><br>
     <label for="cols">Número de columnas:</label>
     <input type="number" id="cols" required><br>
+    <!-- Botón para generar los campos de entrada de las matrices -->
     <button type="button" onclick="generateInputs()">Generar campos de entrada</button>
 </form>
 
+<!-- Div para mostrar los campos de entrada de las matrices -->
 <div id="matrixInputs" style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; border: 1px solid #ddd; border-radius: 5px;"></div>
 
+<!-- Botón para calcular el producto de las matrices -->
 <button type="button" style="margin: 20 auto; max-width: 500px; width: 100%; padding: 20px;" onclick="calculateProduct()">Calcular Producto</button>
 
+<!-- Div para mostrar el resultado -->
 <div id="result"></div>
 
 <script>
+    // Función para generar los campos de entrada de las matrices
     function generateInputs() {
+        // Obtener el número de filas y columnas
         const rows = document.getElementById('rows').value;
         const cols = document.getElementById('cols').value;
         const matrixInputs = document.getElementById('matrixInputs');
         matrixInputs.innerHTML = '';
 
+        // Generar los campos de entrada para las dos matrices
         for (let m = 1; m <= 2; m++) {
             const matrixDiv = document.createElement('div');
             matrixDiv.innerHTML = `<h3>Matriz ${m}</h3>`;
@@ -44,12 +52,15 @@
         }
     }
 
+    // Función para calcular el producto de las matrices
     async function calculateProduct() {
+        // Obtener el número de filas y columnas
         const rows = document.getElementById('rows').value;
         const cols = document.getElementById('cols').value;
         const matrix1 = [];
         const matrix2 = [];
 
+        // Llenar las matrices con los valores ingresados
         for (let i = 0; i < rows; i++) {
             matrix1[i] = [];
             matrix2[i] = [];
@@ -59,6 +70,7 @@
             }
         }
 
+        // Enviar las matrices al servidor para calcular el producto
         try {
             const response = await fetch('http://127.0.0.1:3000/calculate', {
                 method: 'POST',
@@ -71,9 +83,11 @@
                 })
             });
 
+            // Mostrar el resultado
             const result = await response.json();
             document.getElementById('result').innerText = `Resultado: ${JSON.stringify(result)}`;
         } catch (error) {
+            // Manejar cualquier error que ocurra durante la solicitud
             console.error('Error al obtener el resultado:', error);
         }
     }
