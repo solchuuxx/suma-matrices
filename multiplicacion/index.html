@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title style="text-align: center;">Multiplicación de matrices</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f0f0f0; color: #333; margin: 0; padding: 0; line-height: 1.6; text-align: center;">
+<h2>Multiplicación de 2 matrices</h2>
+<form id="matrixForm" style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; border: 1px solid #ddd; border-radius: 5px;">
+    <label for="rows">Número de filas:</label>
+    <input type="number" id="rows" required><br>
+    <label for="cols">Número de columnas:</label>
+    <input type="number" id="cols" required><br>
+    <button type="button" onclick="generateInputs()">Generar campos de entrada</button>
+</form>
+
+<div id="matrixInputs" style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8f8f8; border: 1px solid #ddd; border-radius: 5px;"></div>
+
+<button type="button" style="margin: 20 auto; max-width: 500px; width: 100%; padding: 20px;" onclick="calculateProduct()">Calcular Producto</button>
+
+<div id="result"></div>
+
+<script>
+    function generateInputs() {
+        const rows = document.getElementById('rows').value;
+        const cols = document.getElementById('cols').value;
+        const matrixInputs = document.getElementById('matrixInputs');
+        matrixInputs.innerHTML = '';
+
+        for (let m = 1; m <= 2; m++) {
+            const matrixDiv = document.createElement('div');
+            matrixDiv.innerHTML = `<h3>Matriz ${m}</h3>`;
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.id = `matrix${m}-${i}-${j}`;
+                    matrixDiv.appendChild(input);
+                }
+                matrixDiv.appendChild(document.createElement('br'));
+            }
+            matrixInputs.appendChild(matrixDiv);
+        }
+    }
+
+    async function calculateProduct() {
+        const rows = document.getElementById('rows').value;
+        const cols = document.getElementById('cols').value;
+        const matrix1 = [];
+        const matrix2 = [];
+
+        for (let i = 0; i < rows; i++) {
+            matrix1[i] = [];
+            matrix2[i] = [];
+            for (let j = 0; j < cols; j++) {
+                matrix1[i][j] = Number(document.getElementById(`matrix1-${i}-${j}`).value);
+                matrix2[i][j] = Number(document.getElementById(`matrix2-${i}-${j}`).value);
+            }
+        }
+
+        try {
+            const response = await fetch('http://127.0.0.1:3000/calculate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    matrix1: matrix1,
+                    matrix2: matrix2
+                })
+            });
+
+            const result = await response.json();
+            document.getElementById('result').innerText = `Resultado: ${JSON.stringify(result)}`;
+        } catch (error) {
+            console.error('Error al obtener el resultado:', error);
+        }
+    }
+</script>    
+</body>
+</html>
